@@ -1,20 +1,18 @@
-pipeline {
-  agent any
-  stages{
-    stage('Build'){
-      steps{
-        echo 'build stage.... '
-      }
+job('Jenkins example') {
+    scm {
+        git('git://github.com/wardviaene/docker-demo.git') {  node -> // is hudson.plugins.git.GitSCM
+            node / gitConfigName('DSL User')
+            node / gitConfigEmail('jenkins-dsl@newtech.academy')
+        }
     }
-    stage('Test'){
-      steps{
-        echo 'Test stage.... '
-      }
+    triggers {
+        scm('H/5 * * * *')
     }
-    stage('Release'){
-      steps{
-        echo 'Release stage.... '
-      }
+    wrappers {
+        nodejs('nodejs') // this is the name of the NodeJS installation in
+                         // Manage Jenkins -> Configure Tools -> NodeJS Installations -> Name
     }
-  }
+    steps {
+        shell("npm install")
+    }
 }

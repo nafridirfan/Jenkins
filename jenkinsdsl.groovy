@@ -1,6 +1,6 @@
 job('Jenkins example') {
     scm {
-        git('git://github.com/wardviaene/docker-demo.git') {
+        git('https://github.com/nafridirfan/Jenkins.git') {
         branches('master', '**/features*')
         scriptPath('Jenkinsfile')
         }

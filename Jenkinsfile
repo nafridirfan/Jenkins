@@ -11,6 +11,15 @@ pipeline{
         echo 'Testing.... '
         }
     }
+    stage('Environment Variables'){
+        steps{
+            echo 'Displaying Environment Variables.... '
+            echo env.BUILD_ID
+            echo env.BUILD_NUMBER
+            echo env.JOB_NAME
+            echo env.JENKINS_URL
+        }
+    }
     stage('Deploy'){
       when{
         expression{

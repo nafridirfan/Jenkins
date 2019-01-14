@@ -4,20 +4,31 @@ pipeline{
     stage('Build'){
       steps{
         echo "building.... "
-        sh 'make'
-        archiveArtifacts artifacts: '**/Users/irfan/Documents/Jenkins_Workspace/*.jar', fingerprint: true
       }
     }
     stage('Test'){
       steps{
         echo 'Testing.... '
-        sh 'make check || true'
-        junit '**/target/*.xml'
-      }
+        }
+    }
+    stage('Environment Variables'){
+        steps{
+            echo 'Displaying Environment Variables.... '
+            echo env.BUILD_ID
+            echo env.BUILD_NUMBER
+            echo env.JOB_NAME
+            echo env.JENKINS_URL
+        }
     }
     stage('Deploy'){
+      when{
+        expression{
+            currentBuild.result == null || currentBuild.result == 'FAILURE'
+        }
+      }
       steps{
         echo 'deploying.... '
+        echo currentBuild.result
       }
     }
   }

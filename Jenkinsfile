@@ -14,8 +14,7 @@ pipeline{
     stage('Environment Variables'){
         steps{
             echo 'Displaying Environment Variables.... '
-            echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-            echo "Running ${env.BUILD_ID} and ${env.BUILD_NUMBER} and ${env.JOB_NAME} on $(env.JENKINS_URL)"
+            echo "Running ${env.BUILD_ID} and ${env.BUILD_NUMBER} and ${env.JOB_NAME} on ${env.JENKINS_URL}"
         }
     }
     stage('Deploy'){

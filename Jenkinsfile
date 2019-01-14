@@ -19,7 +19,7 @@ pipeline{
       }
       steps{
         echo 'deploying.... '
-        sh 'make publish'
+        echo currentBuild.result
       }
     }
   }

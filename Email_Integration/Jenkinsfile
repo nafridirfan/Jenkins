@@ -35,16 +35,18 @@ pipeline{
           }
       }
   }
+
+    post{
+        always {
+            echo 'run this anyway'
+        }
+        success {
+            echo 'only on Build Successful'
+        }
+        failure {
+            echo "${currentBuild.result}"
+        }
+    }
 }
 
-post{
-    always {
-        echo 'run this anyway'
-    }
-    success {
-        echo 'only on Build Successful'
-    }
-    failure {
-        echo "${currentBuild.result}"
-    }
-}
+

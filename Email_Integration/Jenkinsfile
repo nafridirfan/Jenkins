@@ -1,8 +1,8 @@
 pipeline{
     environment{
-        to = emailextrecipients([
-                [$class: 'irfan.daval@gmail.com']
-        ])
+//        to = emailextrecipients([
+//                [$class: 'irfan.daval@gmail.com']
+//        ])
         subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
         content = '${JELLY_SCRIPT,template="html"}'
 
@@ -50,10 +50,10 @@ pipeline{
         }
         failure {
                 echo "${currentBuild.result}"
-                expression {
-                    to != null || !to.isEmpty()
-                    emailtext(body:content, mimeType: 'text/html', subject: subject, to: to, attachLog: true)
-                }
+//                expression {
+//                    to != null || !to.isEmpty()
+                    emailtext(body:content, mimeType: 'text/html', subject: subject, to: 'irfan.daval@gmail.com', attachLog: true)
+//                }
         }
     }
 }

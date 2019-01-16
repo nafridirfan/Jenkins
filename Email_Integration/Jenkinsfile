@@ -52,7 +52,7 @@ pipeline{
                 echo "${currentBuild.result}"
 //                expression {
 //                    to != null || !to.isEmpty()
-                    emailtext(body:content, mimeType: 'text/html', subject: subject, to: 'irfan.daval@gmail.com', attachLog: true)
+                    emailext(body:content, mimeType: 'text/html', subject: subject, to: 'irfan.daval@gmail.com', attachLog: true)
 //                }
         }
     }

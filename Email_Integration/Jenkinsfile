@@ -50,9 +50,9 @@ pipeline{
         }
         failure {
                 echo "${currentBuild.result}"
-                if(to != null || !to.isEmpty()){
-                    emailtext(body:content, mimeType: 'text/html',
-                            subject: subject, to: to, attachLog: true)
+                expression {
+                    to != null || !to.isEmpty()
+                    emailtext(body:content, mimeType: 'text/html', subject: subject, to: to, attachLog: true)
                 }
         }
     }

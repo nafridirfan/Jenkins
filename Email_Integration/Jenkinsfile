@@ -1,13 +1,10 @@
 pipeline{
-
   agent any
-
-  def to = emailrecepients([
-            [$class: 'irfan.daval@gmail.com']
-  ])
-
-  try{
-    stages{
+//  def to = emailrecepients([
+//            [$class: 'irfan.daval@gmail.com']
+//  ])
+  stages{
+    try{
         stage('Build'){
           steps{
             echo "building.... "
@@ -37,8 +34,8 @@ pipeline{
             echo currentBuild.result
           }
         }
-      }
-  }catch(e){
-    throw e;
+    }catch(e){
+        throw e
+    }
   }
 }

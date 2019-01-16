@@ -9,13 +9,13 @@ pipeline{
     stage('Test'){
       steps{
         echo 'Testing.... '
-        }
+      }
     }
     stage('Environment Variables'){
-        steps{
+      steps{
             echo 'Displaying Environment Variables.... '
             echo "Running ${env.BUILD_ID} and ${env.BUILD_NUMBER} and ${env.JOB_NAME} on ${env.JENKINS_URL}"
-        }
+      }
     }
     stage('Deploy'){
       when{

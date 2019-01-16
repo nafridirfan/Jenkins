@@ -4,7 +4,6 @@ pipeline{
 //            [$class: 'irfan.daval@gmail.com']
 //  ])
   stages{
-    try{
         stage('Build'){
           steps{
             echo "building.... "
@@ -34,8 +33,5 @@ pipeline{
             echo currentBuild.result
           }
         }
-    }catch(e){
-        throw e
-    }
   }
 }

@@ -1,9 +1,9 @@
 pipeline{
   agent any
   stages{
-//      def to = emailrecepients([
-//            [$class: 'irfan.daval@gmail.com']
-//      ])
+      def to = emailextrecepients([
+            [$class: 'irfan.daval@gmail.com']
+      ])
       stage('Build'){
           steps{
             echo "building.... "
@@ -45,6 +45,13 @@ pipeline{
         }
         failure {
             echo "${currentBuild.result}"
+            def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+            def content = '${JELLY_SCRIPT,template="html"}'
+
+            if(to != null || !to.isEmpty()){
+                emailtext(body:content, mimeType: 'text/html',
+                subject: subject, to: to, attachLog: true)
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 pipeline{
     environment{
         to = emailextrecipients([
-                [$class: 'CulpritsRecipientProvider']
+                [$class: 'irfan.daval@gmail.com']
         ])
         subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
         content = '${JELLY_SCRIPT,template="html"}'

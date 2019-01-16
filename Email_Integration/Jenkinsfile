@@ -1,4 +1,12 @@
 pipeline{
+    environment{
+        to = emailextrecipients([
+                [$class: 'CulpritsRecipientProvider']
+        ])
+        subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+        content = '${JELLY_SCRIPT,template="html"}'
+
+    }
   agent any
   stages{
 
@@ -33,7 +41,6 @@ pipeline{
           }
       }
   }
-
     post{
         always {
             echo 'run this anyway'
@@ -42,19 +49,11 @@ pipeline{
             echo 'only on Build Successful'
         }
         failure {
-            def to = emailextrecipients([
-                    [$class: 'CulpritsRecipientProvider']
-            ])
-            steps{
                 echo "${currentBuild.result}"
-                def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
-                def content = '${JELLY_SCRIPT,template="html"}'
-
                 if(to != null || !to.isEmpty()){
                     emailtext(body:content, mimeType: 'text/html',
                             subject: subject, to: to, attachLog: true)
                 }
-            }
         }
     }
 }

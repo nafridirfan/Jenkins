@@ -13,6 +13,7 @@ pipeline{
           steps{
             echo 'Testing.... '
             sh 'make'
+            echo "${currentBuild.result}"
             }
         }
         stage('Environment Variables'){

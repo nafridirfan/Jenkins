@@ -1,28 +1,28 @@
 pipeline{
   agent any
-//  def to = emailrecepients([
-//            [$class: 'irfan.daval@gmail.com']
-//  ])
   stages{
-        stage('Build'){
+//      def to = emailrecepients([
+//            [$class: 'irfan.daval@gmail.com']
+//      ])
+      stage('Build'){
           steps{
             echo "building.... "
           }
-        }
-        stage('Test'){
+      }
+      stage('Test'){
           steps{
             echo 'Testing.... '
             sh 'make'
             echo "${currentBuild.result}"
             }
-        }
-        stage('Environment Variables'){
+      }
+      stage('Environment Variables'){
             steps{
                 echo 'Displaying Environment Variables.... '
                 echo "Running ${env.BUILD_ID} and ${env.BUILD_NUMBER} and ${env.JOB_NAME} on ${env.JENKINS_URL}"
             }
-        }
-        stage('Deploy'){
+      }
+      stage('Deploy'){
           when{
             expression{
                 currentBuild.result == null || currentBuild.result == 'FAILURE'
@@ -33,6 +33,18 @@ pipeline{
             echo 'deploying.... '
             echo currentBuild.result
           }
-        }
+      }
   }
+}
+
+post{
+    always {
+        echo 'run this anyway'
+    }
+    success {
+        echo 'only on Build Successful'
+    }
+    failure {
+        echo "${currentBuild.result}"
+    }
 }

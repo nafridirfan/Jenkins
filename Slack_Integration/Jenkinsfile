@@ -1,0 +1,62 @@
+pipeline{
+    environment{
+//        to = emailextrecipients([
+//                [$class: 'irfan.daval@gmail.com']
+//        ])
+        subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+        content = '${JELLY_SCRIPT,template="html"}'
+
+    }
+    agent any
+    stages{
+
+        stage('Build'){
+            steps{
+                echo "building.... "
+            }
+        }
+        stage('Test'){
+            steps{
+                echo 'Testing.... '
+//                sh 'make'
+                echo "${currentBuild.result}"
+            }
+        }
+        stage('Environment Variables'){
+            steps{
+                echo 'Displaying Environment Variables.... '
+                echo "Running ${env.BUILD_ID} and ${env.BUILD_NUMBER} and ${env.JOB_NAME} on ${env.JENKINS_URL}"
+            }
+        }
+        stage('Deploy'){
+            when{
+                expression{
+                    currentBuild.result == null || currentBuild.result == 'FAILURE'
+                    echo "${env.JOB_NAME} - Build# ${env.BUILD_NUMBER} ${currentBuild.result}"
+                }
+            }
+            steps{
+                echo 'deploying.... '
+                echo currentBuild.result
+            }
+        }
+    }
+    post{
+        always {
+            slackSend (color: '#FF0000', message: 'Irfan Slack-Jenkins Notification')
+        }
+        success {
+            slackSend (color: '#FF0000', message: "SUCCESS: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+        }
+        failure {
+            echo "${currentBuild.result}"
+            slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+//                expression {
+//                    to != null || !to.isEmpty()
+//            emailext(body:content, mimeType: 'text/html', replyTo: 'DEFAULT_REPLYTO', subject: subject, to: 'irfan.daval@gmail.com', attachLog: true)
+//                }
+        }
+    }
+}
+
+
